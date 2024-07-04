@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /messaging-service
+
+spring:
+  application:
+    name: dateapp
+  datasource:
+    url: jdbc:h2:mem:testdb;
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console: # H2 DB? ??? ??? ? ?? ??
+      enabled: true           # H2 Console ?? ??
+      path: /h2-console       # H2 Console ?? ??
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
+
+logging:
+  level:
+    org.hibernate.sql: debug

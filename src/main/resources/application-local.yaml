@@ -1,0 +1,41 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /messaging-service
+
+spring:
+  # Postgresql Config
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/blossom?currentSchema=messaging-service&rewriteBatchedStatements=true
+    username: user
+    password: password
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      show_sql: true
+      format_sql: true
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/messaging-service
+
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+modules:
+  endpoints:
+    user-service:
+    recommend-service:
+    relation-service:
+    messaging-service:

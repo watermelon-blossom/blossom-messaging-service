@@ -1,0 +1,45 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /messaging-service
+
+jasypt:
+  encryptor:
+    bean: jasyptEncryptorAES
+
+spring:
+  # Postgresql Config
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: ENC(E/WQmQdtdo5J1brYh0iRClk8aKWK/K88NS5+z3Bgc9tiT3OOyK4CKAuVElj/r2g0nxtS40rYHvOCYzSApvT+FVHp2QDTF7Xr3L8K7pSZ20hxqS/AxrNdT2L+rFOS9oCIEfG3n30EX5AKUeC70bnvKKP4MuW6C9ASYYhUpf9Wfla0LbVFvF4lOPm5PmDY+mItY8nuESDCGzfO7GRCcIe45Q==)
+    username: ENC(2iHEDoWCnlIAotrg4fBCvW5yrvI+y6LXEN2Tu2EMRdV8AsJJFbxGiRaXaz72f/8VGhJMqwTHDwXGMGe2EVlTYQ==)
+    password: ENC(gILQRTQeh1itGXAZrjjzjwvfo6aRka9k2CP+9V66Jt4W25r2VFA1BgoP23cId367jrP3WPdoj+HIOaoPHmFn2Q==)
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      show_sql: true
+      format_sql: true
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+  data:
+    mongodb:
+      uri: ENC(41MYu/PnquaScK8Bb77zqbFVhjZxpIK340TasJHRAhgo/UYlRFinl4v4ybT3tU1/DDgf2dZwiz7GG5BgPFCPJae7v3BgUv4I7w5cZMs+agRbaeq6xI/dFA8KzGtN80HBSYPJyS74G2yTsJwqao4k9Q==)
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+modules:
+  endpoints:
+    user-service:
+    recommend-service:
+    relation-service:
+    messaging-service:

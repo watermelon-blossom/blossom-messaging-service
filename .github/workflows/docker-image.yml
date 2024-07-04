@@ -1,0 +1,44 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "develop" ]
+    paths-ignore:
+      - 'k8s/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v4
+
+    - name: Login Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Set up QEMU for multi-platform
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx for multi-platform
+      uses: docker/setup-buildx-action@v3
+
+    - name: Get the latest commit hash
+      run: echo "HASH=$(git log -1 --pretty=%h)" >> $GITHUB_ENV 
+    
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/watermelon-messaging-service:latest,${{ secrets.DOCKER_USERNAME }}/watermelon-messaging-service:${{ env.HASH }}
+        platforms: |
+          linux/amd64
+          linux/arm64
+          linux/arm64/v8
+        
+    - name: Logout from Docker Hub
+      run: docker logout
