@@ -1,7 +1,9 @@
 package com.watermelon.message.global.support;
 
-import com.watermelon.dateapp.global.error.ErrorMessage;
-import com.watermelon.dateapp.global.error.ErrorType;
+
+
+import com.watermelon.message.global.error.ErrorMessage;
+import com.watermelon.message.global.error.ErrorType;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
