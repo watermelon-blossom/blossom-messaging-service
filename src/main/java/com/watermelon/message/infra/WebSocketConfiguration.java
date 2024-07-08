@@ -28,7 +28,6 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     // 메시지 브로커를 구성하는 메서드
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/subscribe"); // /subscribe/{chatNo}로 주제 구독 가능
         registry.setApplicationDestinationPrefixes("/publish"); // /publish/message로 메시지 전송 컨트롤러 라우팅 가능
     }
 
