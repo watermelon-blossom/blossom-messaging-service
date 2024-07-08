@@ -13,7 +13,7 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.google.common.collect.ImmutableMap;
-import com.watermelon.message.dto.message.SendMessageResponse;
+import com.watermelon.message.dto.chatting.SendChatResponse;
 
 @EnableKafka
 @Configuration
@@ -30,14 +30,14 @@ public class KafkaProducerConfiguration {
 
 	// Kafka ProducerFactory를 생성하는 Bean 메서드
 	@Bean
-	public ProducerFactory<String, SendMessageResponse> producerFactory() {
+	public ProducerFactory<String, SendChatResponse> producerFactory() {
 		return new DefaultKafkaProducerFactory<>(producerConfigurations());
 	}
 
 	// Kafka Producer 구성을 위한 설정값들을 포함한 맵을 반환하는 메서드
 	@Bean
 	public Map<String, Object> producerConfigurations() {
-		JsonDeserializer<SendMessageResponse> deserializer = new JsonDeserializer<>(SendMessageResponse.class);
+		JsonDeserializer<SendChatResponse> deserializer = new JsonDeserializer<>(SendChatResponse.class);
 		deserializer.setRemoveTypeHeaders(false);
 		deserializer.addTrustedPackages("*");
 		deserializer.setUseTypeMapperForKey(true);
@@ -52,7 +52,7 @@ public class KafkaProducerConfiguration {
 
 	// KafkaTemplate을 생성하는 Bean 메서드
 	@Bean
-	public KafkaTemplate<String, SendMessageResponse> kafkaTemplate() {
+	public KafkaTemplate<String, SendChatResponse> kafkaTemplate() {
 		return new KafkaTemplate<>(producerFactory());
 	}
 }

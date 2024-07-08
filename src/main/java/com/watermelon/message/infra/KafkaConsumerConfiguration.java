@@ -1,10 +1,6 @@
 package com.watermelon.message.infra;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -21,7 +17,7 @@ import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.google.common.collect.ImmutableMap;
-import com.watermelon.message.dto.message.SendMessageResponse;
+import com.watermelon.message.dto.chatting.SendChatResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,8 +37,8 @@ public class KafkaConsumerConfiguration {
 
     // Kafka ConsumerFactory를 생성하는 Bean 메서드
     @Bean
-    public ConsumerFactory<String, SendMessageResponse> consumerFactory() {
-        JsonDeserializer<SendMessageResponse> deserializer = new JsonDeserializer<>(SendMessageResponse.class);
+    public ConsumerFactory<String, SendChatResponse> consumerFactory() {
+        JsonDeserializer<SendChatResponse> deserializer = new JsonDeserializer<>(SendChatResponse.class);
         ImmutableMap<String, Object> properties = ImmutableMap.<String, Object>builder()
                 .put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer)
                 .put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
@@ -54,8 +50,8 @@ public class KafkaConsumerConfiguration {
     }
 
     @Bean
-    ConcurrentKafkaListenerContainerFactory<String, SendMessageResponse> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, SendMessageResponse> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    ConcurrentKafkaListenerContainerFactory<String, SendChatResponse> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, SendChatResponse> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         ContainerProperties prop = factory.getContainerProperties();
         prop.setConsumerRebalanceListener(rebalanceListener());
