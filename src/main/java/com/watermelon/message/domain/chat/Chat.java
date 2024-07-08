@@ -1,5 +1,4 @@
-package com.watermelon.message.domain;
-
+package com.watermelon.message.domain.chat;
 
 import java.time.LocalDateTime;
 
@@ -13,22 +12,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Document(collection = "chatting")
+@Document(collection = "chat")
 @Getter
 @ToString
 @Setter
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class Chatting {
+public class Chat {
 
 	@Id
 	private String id;
 	private Integer roomId;
 	private String senderId;
-	private String senderName;
 	private String contentType;
 	private String content;
 	private long readCount;
 	private LocalDateTime sendDate;
+
+	public void readCountUp() {
+		this.readCount++;
+	}
+
 }
