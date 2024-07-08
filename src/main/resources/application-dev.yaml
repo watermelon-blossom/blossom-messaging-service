@@ -29,6 +29,19 @@ spring:
     mongodb:
       uri: ENC(41MYu/PnquaScK8Bb77zqbFVhjZxpIK340TasJHRAhgo/UYlRFinl4v4ybT3tU1/DDgf2dZwiz7GG5BgPFCPJae7v3BgUv4I7w5cZMs+agRbaeq6xI/dFA8KzGtN80HBSYPJyS74G2yTsJwqao4k9Q==)
 
+  kafka:
+    topic:
+      names: message
+    bootstrap-servers: ENC(4zWZOiWPnWVTdOKY6jbsuFWzezSCuvUv1sjeVM5mesRtOVgLxPIRkHJsPgmcgUNZ8az3zhC66cLJdqCTwEbQ8g==)
+    listener:
+      type: batch
+      concurrency: 1
+      ack-mode: batch
+    consumer:
+      group-id: ${random.uuid}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
 logging:
   level:
     org:
