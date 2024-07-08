@@ -24,7 +24,7 @@ public class Chatting {
 
 	@Id
 	private String id;
-	private Integer chatRoomNo;
+	private Integer roomId;
 	private String senderId;
 	private String senderName;
 	private String contentType;
