@@ -4,8 +4,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.watermelon.message.domain.chat.Chat;
 import com.watermelon.message.domain.chat.ChatRepository;
-import com.watermelon.message.dto.chatting.SendChatRequest;
-import com.watermelon.message.dto.chatting.SendChatResponse;
+import com.watermelon.message.dto.chat.SendChatRequest;
+import com.watermelon.message.dto.chat.SendChatResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,13 +13,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChatService {
 
-	private final ChatRepository chattingRepository;
+	private final ChatRepository chatRepository;
 
 	@Transactional
 	public SendChatResponse save(SendChatRequest request) {
 		//save Chatting to repository
-		Chat chatting = request.toEntity();
-		Chat saved = chattingRepository.save(chatting);
+		Chat chat = request.toEntity();
+		Chat saved = chatRepository.save(chat);
 		return SendChatResponse.from(saved);
 	}
 }

@@ -13,7 +13,7 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.google.common.collect.ImmutableMap;
-import com.watermelon.message.dto.chatting.SendChatResponse;
+import com.watermelon.message.dto.chat.SendChatResponse;
 
 @EnableKafka
 @Configuration

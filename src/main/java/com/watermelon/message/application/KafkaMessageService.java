@@ -8,8 +8,8 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import com.watermelon.message.dto.chatting.SendChatRequest;
-import com.watermelon.message.dto.chatting.SendChatResponse;
+import com.watermelon.message.dto.chat.SendChatRequest;
+import com.watermelon.message.dto.chat.SendChatResponse;
 import com.watermelon.message.global.error.ApplicationException;
 import com.watermelon.message.global.error.ErrorType;
 

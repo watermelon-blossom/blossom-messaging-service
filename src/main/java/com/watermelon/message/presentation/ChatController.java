@@ -5,7 +5,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.watermelon.message.application.KafkaMessageService;
-import com.watermelon.message.dto.chatting.SendChatRequest;
+import com.watermelon.message.dto.chat.SendChatRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

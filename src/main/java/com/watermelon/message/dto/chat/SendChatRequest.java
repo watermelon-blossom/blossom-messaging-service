@@ -1,4 +1,4 @@
-package com.watermelon.message.dto.chatting;
+package com.watermelon.message.dto.chat;
 
 import java.time.LocalDateTime;
 

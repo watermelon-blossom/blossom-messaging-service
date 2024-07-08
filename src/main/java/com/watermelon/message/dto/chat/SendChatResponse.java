@@ -1,4 +1,4 @@
-package com.watermelon.message.dto.chatting;
+package com.watermelon.message.dto.chat;
 
 import java.time.LocalDateTime;
 
@@ -12,14 +12,14 @@ public record SendChatResponse(
 	long readCount,
 	LocalDateTime sendDate
 ) {
-	public static SendChatResponse from(Chat chatting) {
+	public static SendChatResponse from(Chat chat) {
 		return new SendChatResponse(
-			chatting.getRoomId(),
-			chatting.getSenderId(),
-			chatting.getContent(),
-			chatting.getContentType(),
-			chatting.getReadCount(),
-			chatting.getSendDate());
+			chat.getRoomId(),
+			chat.getSenderId(),
+			chat.getContent(),
+			chat.getContentType(),
+			chat.getReadCount(),
+			chat.getSendDate());
 	}
 
 }

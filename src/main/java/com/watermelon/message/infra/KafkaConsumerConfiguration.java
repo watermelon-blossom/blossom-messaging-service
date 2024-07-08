@@ -17,7 +17,7 @@ import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.google.common.collect.ImmutableMap;
-import com.watermelon.message.dto.chatting.SendChatResponse;
+import com.watermelon.message.dto.chat.SendChatResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
