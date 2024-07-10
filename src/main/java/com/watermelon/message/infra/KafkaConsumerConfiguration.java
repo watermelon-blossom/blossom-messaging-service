@@ -50,7 +50,7 @@ public class KafkaConsumerConfiguration {
     }
 
     @Bean
-    ConcurrentKafkaListenerContainerFactory<String, SendChatResponse> kafkaListenerContainerFactory() {
+    public ConcurrentKafkaListenerContainerFactory<String, SendChatResponse> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, SendChatResponse> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         ContainerProperties prop = factory.getContainerProperties();
