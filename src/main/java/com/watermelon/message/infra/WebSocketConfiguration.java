@@ -21,14 +21,15 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/chat") // STOMP 엔드포인트 설정
-                .setAllowedOriginPatterns("*") // 모든 Origin 허용 -> 배포시에는 보안을 위해 Origin을 정확히 지정
+            //TODO 모든 Origin 허용 -> 배포시에는 보안을 위해 Origin을 정확히 지정
+                .setAllowedOriginPatterns("*")
                 .withSockJS(); // SockJS 사용가능 설정
     }
 
     // 메시지 브로커를 구성하는 메서드
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/publish"); // /publish/message로 메시지 전송 컨트롤러 라우팅 가능
+        registry.setApplicationDestinationPrefixes("/publish");
     }
 
     // 클라이언트 인바운드 채널을 구성하는 메서드
