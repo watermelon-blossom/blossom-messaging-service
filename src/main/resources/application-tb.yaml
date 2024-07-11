@@ -24,6 +24,18 @@ spring:
     mongodb:
       uri: ${SPRING_DATA_MONGODB_URI}
 
+  kafka:
+    topic:
+      names: message
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
+    listener:
+      type: batch
+      concurrency: 1
+      ack-mode: batch
+    consumer:
+      group-id: ${random.uuid}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 logging:
   level:
