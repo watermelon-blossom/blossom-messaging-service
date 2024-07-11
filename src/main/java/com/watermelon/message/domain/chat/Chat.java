@@ -21,9 +21,9 @@ public class Chat {
 
 	@Id
 	private String id;
-	private Integer roomId;
+	private Long roomId;
 	private String senderId;
-	private String contentType;
+	private ContentType contentType;
 	private String content;
 	private long readCount;
 	private LocalDateTime sendDate;

@@ -3,12 +3,13 @@ package com.watermelon.message.dto.chat;
 import java.time.LocalDateTime;
 
 import com.watermelon.message.domain.chat.Chat;
+import com.watermelon.message.domain.chat.ContentType;
 
 public record SendChatResponse(
-	Integer roomId,
+	Long roomId,
 	String senderId,
 	String content,
-	String contentType,
+	ContentType contentType,
 	long readCount,
 	LocalDateTime sendDate
 ) {
