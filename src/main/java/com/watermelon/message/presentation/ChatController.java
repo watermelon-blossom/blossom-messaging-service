@@ -16,9 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatController {
 	private final KafkaMessageService kafkaMessageService;
 
-	@MessageMapping("/{roomId}")
+	@MessageMapping("/room/{roomId}")
 	public void sendMessage(@DestinationVariable Long roomId, SendChatRequest message) {
 		log.info("roomID = {}", roomId);
-		kafkaMessageService.send("/topic/chat/room/" + roomId, message);
+		kafkaMessageService.send("message", roomId, message);
 	}
 }
