@@ -21,7 +21,7 @@ public class Chat {
 
 	@Id
 	private String id;
-	private Long roomId;
+	private String roomId;
 	private String senderId;
 	private ContentType contentType;
 	private String content;
