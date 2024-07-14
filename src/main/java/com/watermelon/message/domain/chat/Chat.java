@@ -25,11 +25,12 @@ public class Chat {
 	private String senderId;
 	private ContentType contentType;
 	private String content;
-	private long readCount;
+	private boolean hasRead;
 	private LocalDateTime sendDate;
+	private String url;
 
-	public void readCountUp() {
-		this.readCount++;
+	public void checkRead() {
+		hasRead = true;
 	}
 
 }
