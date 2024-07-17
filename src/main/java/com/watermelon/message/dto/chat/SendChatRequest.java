@@ -10,7 +10,7 @@ public record SendChatRequest(
 	ContentType contentType,
 	String content
 ){
-	// SnedMessageRequest로부터 Chatting 객체를 생성하는 메서드
+	// SendChatRequest로부터 Chatting 객체를 생성하는 메서드
 	public Chat toEntity(String roomId) {
 		return Chat.builder()
 			.roomId(roomId)
