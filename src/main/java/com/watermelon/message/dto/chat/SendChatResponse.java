@@ -3,13 +3,14 @@ package com.watermelon.message.dto.chat;
 import java.time.LocalDateTime;
 
 import com.watermelon.message.domain.chat.Chat;
+import com.watermelon.message.domain.chat.ContentType;
 
 public record SendChatResponse(
-	Integer roomId,
+	String roomId,
 	String senderId,
 	String content,
-	String contentType,
-	long readCount,
+	ContentType contentType,
+	boolean hasRead,
 	LocalDateTime sendDate
 ) {
 	public static SendChatResponse from(Chat chat) {
@@ -18,7 +19,7 @@ public record SendChatResponse(
 			chat.getSenderId(),
 			chat.getContent(),
 			chat.getContentType(),
-			chat.getReadCount(),
+			chat.isHasRead(),
 			chat.getSendDate());
 	}
 

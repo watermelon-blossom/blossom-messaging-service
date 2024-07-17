@@ -21,15 +21,16 @@ public class Chat {
 
 	@Id
 	private String id;
-	private Integer roomId;
+	private String roomId;
 	private String senderId;
-	private String contentType;
+	private ContentType contentType;
 	private String content;
-	private long readCount;
+	private boolean hasRead;
 	private LocalDateTime sendDate;
+	private String url;
 
-	public void readCountUp() {
-		this.readCount++;
+	public void checkRead() {
+		hasRead = true;
 	}
 
 }

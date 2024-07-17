@@ -20,7 +20,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     // STOMP 엔드포인트를 등록하는 메서드
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat") // STOMP 엔드포인트 설정
+        registry.addEndpoint("/ws") // STOMP 엔드포인트 설정
             //TODO 모든 Origin 허용 -> 배포시에는 보안을 위해 Origin을 정확히 지정
                 .setAllowedOriginPatterns("*")
                 .withSockJS(); // SockJS 사용가능 설정

@@ -2,6 +2,7 @@ package com.watermelon.message.domain.chat;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,4 +16,6 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 public class ChatRoom {
+	@Id
+	private String id;
 }
