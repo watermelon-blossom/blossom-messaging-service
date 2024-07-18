@@ -10,16 +10,16 @@ public record SendChatRequest(
 	ContentType contentType,
 	String content
 ){
-	// SnedMessageRequest로부터 Chatting 객체를 생성하는 메서드
-	public Chat toEntity(Long roomId) {
+	// SendChatRequest로부터 Chatting 객체를 생성하는 메서드
+	public Chat toEntity(String roomId) {
 		return Chat.builder()
-				.roomId(roomId)
-				.senderId(senderId())
-				.contentType(contentType())
-				.content(content())
-				.readCount(0)
-				.sendDate(LocalDateTime.now())
-				.build();
+			.roomId(roomId)
+			.senderId(senderId())
+			.contentType(contentType())
+			.content(content())
+			.hasRead(false)
+			.sendDate(LocalDateTime.now())
+			.build();
 	}
 
 }

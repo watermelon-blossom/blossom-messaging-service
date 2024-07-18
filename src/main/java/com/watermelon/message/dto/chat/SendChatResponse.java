@@ -6,11 +6,11 @@ import com.watermelon.message.domain.chat.Chat;
 import com.watermelon.message.domain.chat.ContentType;
 
 public record SendChatResponse(
-	Long roomId,
+	String roomId,
 	String senderId,
 	String content,
 	ContentType contentType,
-	long readCount,
+	boolean hasRead,
 	LocalDateTime sendDate
 ) {
 	public static SendChatResponse from(Chat chat) {
@@ -19,7 +19,7 @@ public record SendChatResponse(
 			chat.getSenderId(),
 			chat.getContent(),
 			chat.getContentType(),
-			chat.getReadCount(),
+			chat.isHasRead(),
 			chat.getSendDate());
 	}
 
