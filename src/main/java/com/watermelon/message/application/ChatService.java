@@ -16,7 +16,7 @@ public class ChatService {
 	private final ChatRepository chatRepository;
 
 	@Transactional
-	public SendChatResponse save(Long roomId, SendChatRequest request) {
+	public SendChatResponse save(String roomId, SendChatRequest request) {
 		//save Chatting to repository
 		Chat chat = request.toEntity(roomId);
 		Chat saved = chatRepository.save(chat);

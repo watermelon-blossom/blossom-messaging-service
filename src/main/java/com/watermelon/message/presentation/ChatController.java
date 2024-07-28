@@ -15,7 +15,7 @@ public class ChatController {
 	private final KafkaMessageService kafkaMessageService;
 
 	@MessageMapping("/room/{roomId}")
-	public void sendMessage(@DestinationVariable Long roomId, SendChatRequest message) {
+	public void sendMessage(@DestinationVariable String roomId, SendChatRequest message) {
 		log.info("roomID = {}", roomId);
 		kafkaMessageService.send("message", roomId, message);
 	}

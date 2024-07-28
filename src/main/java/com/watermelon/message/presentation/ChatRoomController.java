@@ -2,7 +2,9 @@ package com.watermelon.message.presentation;
 
 import java.awt.print.Pageable;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +40,13 @@ public class ChatRoomController {
 	) {
 		String roomId = chatRoomService.createChatRoom(request);
 		return ApiResponse.success(roomId);
+	}
+
+	@DeleteMapping("/chatRooms/{roomId}")
+	public ApiResponse<String> deleteChatRooms(
+		@PathVariable String roomId
+	) {
+		chatRoomService.deleteChatRoom(roomId);
+		return ApiResponse.success("success");
 	}
 }

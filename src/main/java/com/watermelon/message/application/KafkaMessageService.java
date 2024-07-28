@@ -21,7 +21,7 @@ public class KafkaMessageService {
 	private final SimpMessagingTemplate template;
 
 	//producer
-	public void send(String topic, Long roomId, SendChatRequest messageDto) {
+	public void send(String topic, String roomId, SendChatRequest messageDto) {
 		log.debug("send Message : " + messageDto);
 		SendChatResponse responseMessageDto = chatService.save(roomId, messageDto);
 		kafkaTemplate.send(topic, responseMessageDto);

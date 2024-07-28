@@ -11,6 +11,8 @@ import com.watermelon.message.domain.chatRoom.ChatUsers;
 import com.watermelon.message.dto.chatRoom.ChatRoomResponse;
 import com.watermelon.message.dto.chatRoom.CreateChatRoomRequest;
 import com.watermelon.message.dto.chatRoom.GetChatRoomRequest;
+import com.watermelon.message.global.error.ApplicationException;
+import com.watermelon.message.global.error.ErrorType;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,5 +39,12 @@ public class ChatRoomService {
 
 		ChatRoom room = chatRoomRepository.save(chatRoom);
 		return room.getId();
+	}
+
+	public void deleteChatRoom(String roomId) {
+		ChatRoom chatRoom = chatRoomRepository.findById(roomId)
+			.orElseThrow(() -> new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
+
+		chatRoom.deleteRoom();
 	}
 }
