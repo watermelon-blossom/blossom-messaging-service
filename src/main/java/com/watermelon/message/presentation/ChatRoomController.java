@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.watermelon.message.application.ChatRoomService;
 import com.watermelon.message.dto.chatRoom.ChatRoomResponse;
 import com.watermelon.message.dto.chatRoom.CreateChatRoomRequest;
 import com.watermelon.message.dto.chatRoom.GetChatRoomRequest;

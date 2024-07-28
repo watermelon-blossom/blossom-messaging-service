@@ -1,4 +1,4 @@
-package com.watermelon.message.presentation;
+package com.watermelon.message.application;
 
 import java.awt.print.Pageable;
 import java.util.List;
