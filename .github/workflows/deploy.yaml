@@ -25,10 +25,12 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Get the latest commit hash
-        run: echo "HASH=$(git log -1 --pretty=%h)" >> $GITHUB_ENV
+        run: |
+          SHORT_HASH=$(echo "${{ github.event.workflow_run.head_commit.id }}" | cut -c1-7)
+          echo "HASH=$SHORT_HASH" >> $GITHUB_ENV
 
       - name: Change manifest
-        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-messaging-service:\s*[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-messaging-service:${{ env.HASH }}|g" k8s/deploy.yaml
+        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-message-service:\s*[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-message-service:${{ env.HASH }}|g" k8s/deploy.yaml
 
       - name: git push
         run: |
