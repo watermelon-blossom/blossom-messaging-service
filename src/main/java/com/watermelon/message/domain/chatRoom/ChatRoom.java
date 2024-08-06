@@ -1,7 +1,14 @@
 package com.watermelon.message.domain.chatRoom;
 
+import static com.watermelon.message.domain.chatRoom.RoomStatus.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.watermelon.message.domain.chat.Chat;
 import com.watermelon.message.global.common.BaseEntity;
 
 import jakarta.persistence.Id;
@@ -11,7 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Document(collection = "chatRoom")
+@Document(collection = "chatRooms")
 @Getter
 @ToString
 @AllArgsConstructor
@@ -23,10 +30,13 @@ public class ChatRoom extends BaseEntity {
 	private ChatUsers chatUsers;
 	private RoomStatus roomStatus;
 
-	public static ChatRoom createChatRoom(ChatUsers user) {
+	@DBRef
+	private List<Chat> chats = new ArrayList<>();
+
+	public static ChatRoom createChatRoom(ChatUsers users) {
 		return ChatRoom.builder()
-			.chatUsers(ChatUsers.builder().build())
-			.roomStatus(RoomStatus.ACTIVE)
+			.chatUsers(users)
+			.roomStatus(ACTIVE)
 			.build();
 	}
 

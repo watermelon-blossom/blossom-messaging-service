@@ -2,8 +2,6 @@ package com.watermelon.message.domain.chat;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Document(collection = "chat")
 @Getter
 @ToString
 @AllArgsConstructor

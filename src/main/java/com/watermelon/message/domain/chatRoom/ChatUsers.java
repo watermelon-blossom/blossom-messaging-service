@@ -2,6 +2,7 @@ package com.watermelon.message.domain.chatRoom;
 
 import static lombok.AccessLevel.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 public class ChatUsers {
-	private List<ChatUser> users;
+	private List<ChatUser> users = new ArrayList<>();
 
 	public static ChatUsers createChatUsers(
 		List<String> userIds
@@ -24,7 +25,7 @@ public class ChatUsers {
 		return chatUsers;
 	}
 
-	void addUser(ChatUser user) {
-		users.add(user);
+	public void addUser(ChatUser user) {
+		this.users.add(user);
 	}
 }

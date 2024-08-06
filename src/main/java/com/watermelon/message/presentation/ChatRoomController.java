@@ -1,7 +1,8 @@
 package com.watermelon.message.presentation;
 
-import java.awt.print.Pageable;
+import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +27,19 @@ public class ChatRoomController {
 	private final ChatRoomService chatRoomService;
 
 	@GetMapping("/chatRooms")
-	public ApiResponse<ChatRoomResponse> getChatRoom(
+	public ApiResponse<List<ChatRoomResponse>> getChatRoom(
 		@Valid GetChatRoomRequest request,
 		Pageable pageable
 	) {
-		ChatRoomResponse chatRoom = chatRoomService.getChatRoomByUserId(request, pageable);
+		List<ChatRoomResponse> chatRooms = chatRoomService.getChatRoomByUserId(request, pageable);
+		return ApiResponse.success(chatRooms);
+	}
+
+	@GetMapping("/chatRooms/{roomId}")
+	public ApiResponse<ChatRoomResponse> getChatRoomByRoomId(
+		@PathVariable String roomId
+	) {
+		ChatRoomResponse chatRoom = chatRoomService.getChatRoomByRoomId(roomId);
 		return ApiResponse.success(chatRoom);
 	}
 
