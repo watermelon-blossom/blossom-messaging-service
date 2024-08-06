@@ -23,6 +23,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: messaging-service-config
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: tb
