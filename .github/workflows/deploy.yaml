@@ -30,7 +30,7 @@ jobs:
           echo "HASH=$SHORT_HASH" >> $GITHUB_ENV
 
       - name: Change manifest
-        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-message-service:\s*[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-message-service:${{ env.HASH }}|g" k8s/deploy.yaml
+        run: sed -i "s|${{ secrets.DOCKER_USERNAME }}/watermelon-messaging-service:\s*[^ ]*|${{ secrets.DOCKER_USERNAME }}/watermelon-messaging-service:${{ env.HASH }}|g" k8s/deploy.yaml
 
       - name: git push
         run: |
