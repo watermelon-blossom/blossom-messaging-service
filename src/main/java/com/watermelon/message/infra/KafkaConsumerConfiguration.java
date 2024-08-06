@@ -39,11 +39,13 @@ public class KafkaConsumerConfiguration {
     @Bean
     public ConsumerFactory<String, ChatResponse> consumerFactory() {
         JsonDeserializer<ChatResponse> deserializer = new JsonDeserializer<>();
+        deserializer.addTrustedPackages("*");
         ImmutableMap<String, Object> properties = ImmutableMap.<String, Object>builder()
             .put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer)
             .put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
             .put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, keyDeserializer)
             .put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer)
+            .put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest")
             .build();
 
         return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), deserializer);
