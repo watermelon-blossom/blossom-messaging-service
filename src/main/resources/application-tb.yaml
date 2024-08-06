@@ -35,7 +35,7 @@ spring:
     consumer:
       group-id: ${random.uuid}
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.JsonDeserializer
 
 logging:
   level:
