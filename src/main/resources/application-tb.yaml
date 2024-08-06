@@ -14,12 +14,12 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: none
       show_sql: true
-      format_sql: true
     properties:
-      hibernate:
-        default_batch_fetch_size: 1000
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.default_batch_fetch_size: 1000
+      hibernate.hbm2ddl.auto: create
+
   data:
     mongodb:
       uri: ${SPRING_DATA_MONGODB_URI}
