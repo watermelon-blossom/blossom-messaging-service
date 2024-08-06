@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.watermelon.message.domain.chatRoom.ChatRoom;
-import com.watermelon.message.domain.chatRoom.ChatRoomRepository;
-import com.watermelon.message.domain.chatRoom.ChatUsers;
+import com.watermelon.message.domain.mongo.chatRoom.ChatRoom;
+import com.watermelon.message.domain.mongo.chatRoom.ChatRoomRepository;
+import com.watermelon.message.domain.mongo.chatRoom.ChatUsers;
 import com.watermelon.message.dto.chatRoom.ChatRoomResponse;
 import com.watermelon.message.dto.chatRoom.CreateChatRoomRequest;
 import com.watermelon.message.dto.chatRoom.GetChatRoomRequest;

@@ -19,12 +19,12 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: none
       show_sql: true
       format_sql: true
     properties:
-      hibernate:
-        default_batch_fetch_size: 1000
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.default_batch_fetch_size: 1000
+      hibernate.hbm2ddl.auto: none
   data:
     mongodb:
       uri: ENC(41MYu/PnquaScK8Bb77zqbFVhjZxpIK340TasJHRAhgo/UYlRFinl4v4ybT3tU1/DDgf2dZwiz7GG5BgPFCPJae7v3BgUv4I7w5cZMs+agRbaeq6xI/dFA8KzGtN80HBSYPJyS74G2yTsJwqao4k9Q==)

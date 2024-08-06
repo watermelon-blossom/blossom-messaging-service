@@ -1,4 +1,4 @@
-package com.watermelon.message.domain.chatRoom;
+package com.watermelon.message.domain.mongo.chatRoom;
 
 public enum RoomStatus {
 	ACTIVE,

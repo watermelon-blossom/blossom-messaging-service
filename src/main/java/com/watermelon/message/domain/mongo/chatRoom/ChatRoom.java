@@ -1,6 +1,6 @@
-package com.watermelon.message.domain.chatRoom;
+package com.watermelon.message.domain.mongo.chatRoom;
 
-import static com.watermelon.message.domain.chatRoom.RoomStatus.*;
+import static com.watermelon.message.domain.mongo.chatRoom.RoomStatus.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.watermelon.message.domain.chat.Chat;
+import com.watermelon.message.domain.mongo.chat.Chat;
 import com.watermelon.message.global.common.BaseEntity;
 
 import jakarta.persistence.Id;

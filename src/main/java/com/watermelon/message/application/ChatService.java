@@ -5,8 +5,8 @@ import static com.watermelon.message.global.error.ErrorType.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.watermelon.message.domain.chat.Chat;
-import com.watermelon.message.domain.chat.ChatRepository;
+import com.watermelon.message.domain.mongo.chat.Chat;
+import com.watermelon.message.domain.mongo.chat.ChatRepository;
 import com.watermelon.message.dto.chat.ChatResponse;
 import com.watermelon.message.dto.chat.SendChatRequest;
 import com.watermelon.message.global.error.ApplicationException;

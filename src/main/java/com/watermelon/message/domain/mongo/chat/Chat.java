@@ -1,4 +1,4 @@
-package com.watermelon.message.domain.chat;
+package com.watermelon.message.domain.mongo.chat;
 
 import java.time.LocalDateTime;
 

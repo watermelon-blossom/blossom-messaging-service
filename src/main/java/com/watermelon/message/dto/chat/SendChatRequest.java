@@ -2,8 +2,8 @@ package com.watermelon.message.dto.chat;
 
 import java.time.LocalDateTime;
 
-import com.watermelon.message.domain.chat.Chat;
-import com.watermelon.message.domain.chat.ContentType;
+import com.watermelon.message.domain.mongo.chat.Chat;
+import com.watermelon.message.domain.mongo.chat.ContentType;
 
 public record SendChatRequest(
 	String senderId,

@@ -2,9 +2,9 @@ package com.watermelon.message.dto.chatRoom;
 
 import java.time.LocalDateTime;
 
-import com.watermelon.message.domain.chatRoom.ChatRoom;
-import com.watermelon.message.domain.chatRoom.ChatUsers;
-import com.watermelon.message.domain.chatRoom.RoomStatus;
+import com.watermelon.message.domain.mongo.chatRoom.ChatRoom;
+import com.watermelon.message.domain.mongo.chatRoom.ChatUsers;
+import com.watermelon.message.domain.mongo.chatRoom.RoomStatus;
 
 public record ChatRoomResponse(
 	String roomId,
