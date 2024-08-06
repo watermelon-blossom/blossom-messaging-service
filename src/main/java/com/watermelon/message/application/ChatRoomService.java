@@ -1,8 +1,8 @@
 package com.watermelon.message.application;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.watermelon.message.domain.chatRoom.ChatRoom;
@@ -23,13 +23,23 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatRoomService {
 	private final ChatRoomRepository chatRoomRepository;
 
-	public ChatRoomResponse getChatRoomByUserId(GetChatRoomRequest request, Pageable pageable) {
+	public List<ChatRoomResponse> getChatRoomByUserId(GetChatRoomRequest request, Pageable pageable) {
 
 		//TODO check if users in request is valid
 
 		List<ChatRoom> chatRooms = chatRoomRepository.findByUserId(request.userId(), pageable);
+		List<ChatRoomResponse> chatRoomResponses =
+			chatRooms.stream()
+				.map(chatRoom -> ChatRoomResponse.from(chatRoom, null, null, null)
+				).toList();
 
-		return null;
+		return chatRoomResponses;
+	}
+
+	public ChatRoomResponse getChatRoomByRoomId(String roomId) {
+		ChatRoom room = chatRoomRepository.findById(roomId).orElseThrow(() ->
+			new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
+		return ChatRoomResponse.from(room, null, null, null);
 	}
 
 	public String createChatRoom(CreateChatRoomRequest request) {
@@ -47,4 +57,5 @@ public class ChatRoomService {
 
 		chatRoom.deleteRoom();
 	}
+
 }
