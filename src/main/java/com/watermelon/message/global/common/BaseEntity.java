@@ -10,10 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
 
 @EntityListeners(AuditingEntityListener.class)
-@MappedSuperclass
 public class BaseEntity {
 	@Comment("생성 일시")
 	@Column(name = "createDate", nullable = false, updatable = false)

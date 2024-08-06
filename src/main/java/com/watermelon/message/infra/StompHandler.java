@@ -1,5 +1,7 @@
 package com.watermelon.message.infra;
 
+import java.security.Principal;
+
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -17,23 +19,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StompHandler implements ChannelInterceptor {
 
+	@Override
+	public Message<?> preSend(Message<?> message, MessageChannel channel) {
+		//log.info("Stomp Handler 실행");
+		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
+		// 헤더 토큰 얻기
+		//String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
+		return message;
+	}
 
-    @Override
-    public Message<?> preSend(Message<?> message, MessageChannel channel) {
-        //log.info("Stomp Handler 실행");
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
-        // 헤더 토큰 얻기
-        //String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
-        return message;
-    }
+	@EventListener
+	public void handleWebSocketConnectionListener(SessionConnectedEvent event) {
+		Principal user = event.getUser();
+		log.info("사용자 입장");
+	}
 
-    @EventListener
-    public void handleWebSocketConnectionListener(SessionConnectedEvent event){
-        log.info("사용자 입장");
-    }
-
-    @EventListener
-    public void handleWebSocketDisconnectionListener(SessionDisconnectEvent event){
-        log.info("사용자 퇴장");
-    }
+	@EventListener
+	public void handleWebSocketDisconnectionListener(SessionDisconnectEvent event) {
+		log.info("사용자 퇴장");
+	}
 }
