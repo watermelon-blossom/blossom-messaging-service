@@ -7,7 +7,7 @@ spring:
   # Postgresql Config
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_URL}
+    jdbc-url: ${SPRING_DATASOURCE_JDBCURL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
 
@@ -27,7 +27,7 @@ spring:
   kafka:
     topic:
       names: message
-    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAPSERVERS}
     listener:
       type: batch
       concurrency: 1
