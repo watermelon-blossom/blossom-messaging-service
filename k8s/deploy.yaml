@@ -19,7 +19,7 @@ spec:
         - name: regcred
       containers:
         - name: backend
-          image: kyankee6/watermelon-messaging-service:4a11b2c
+          image: kyankee6/watermelon-messaging-service:01a7321
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
