@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface ChatRoomRepository extends MongoRepository<ChatRoom, String> {
 	@Query("{ 'chatUsers.users.userId': ?0 }")
 	List<ChatRoom> findByUserId(String userId, Pageable pageable);
+
 }

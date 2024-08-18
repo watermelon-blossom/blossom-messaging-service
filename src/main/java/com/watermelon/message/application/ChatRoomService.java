@@ -1,6 +1,7 @@
 package com.watermelon.message.application;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -58,4 +59,8 @@ public class ChatRoomService {
 		chatRoom.deleteRoom();
 	}
 
+	public boolean isUserInRoom(String roomId, String userId) {
+		Optional<ChatRoom> room = chatRoomRepository.findById(roomId);
+		return room.map(chatRoom -> chatRoom.isUserInRoom(userId)).orElse(false);
+	}
 }

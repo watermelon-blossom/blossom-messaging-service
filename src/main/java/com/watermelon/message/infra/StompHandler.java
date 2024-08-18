@@ -1,5 +1,7 @@
 package com.watermelon.message.infra;
 
+import static com.watermelon.message.global.error.ErrorType.*;
+
 import java.security.Principal;
 
 import org.springframework.context.event.EventListener;
@@ -7,9 +9,14 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import com.watermelon.message.application.ChatReadService;
+import com.watermelon.message.application.ChatRoomService;
+import com.watermelon.message.global.error.ApplicationException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +26,38 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StompHandler implements ChannelInterceptor {
 
+	private final ChatReadService chatReadService;
+	private final ChatRoomService chatRoomService;
+
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel channel) {
-		//log.info("Stomp Handler 실행");
-		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
-		// 헤더 토큰 얻기
-		//String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
+		StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+
+		switch (accessor.getCommand()) {
+			case SUBSCRIBE -> {
+				String userId = accessor.getFirstNativeHeader("userId");
+
+				if (userId == null) {
+					throw new ApplicationException(MESSAGE_WITH_NO_USERID_HEADER);
+				}
+
+				String destination = accessor.getDestination();
+				if (destination == null) {
+					throw new ApplicationException(MESSAGE_WITH_NO_DESTINATION);
+				}
+
+				String[] destinationParts = destination.split("/");
+				String roomId = destinationParts[destinationParts.length - 1]; // 마지막 문자열을 roomId로 저장
+
+				if (!chatRoomService.isUserInRoom(roomId, userId))
+					throw new ApplicationException(NOT_VALID_USER_TO_ENTER_CHAT_ROOM);
+
+				// roomId를 이용한 추가 로직을 여기에서 구현
+				chatReadService.readRoom(roomId, userId);
+			}
+			case CONNECT -> {
+			}
+		}
 		return message;
 	}
 

@@ -48,4 +48,12 @@ public class ChatRoom extends BaseEntity {
 		this.chatUsers = null;
 		this.roomStatus = RoomStatus.DELETED;
 	}
+
+	public boolean isUserInRoom(String userId) {
+		List<ChatUser> users = chatUsers.getUsers();
+		return users.stream()
+			.map(ChatUser::getUserId)
+			.anyMatch(id -> id.equals(userId));
+	}
+
 }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>WebSocket STOMP Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+</head>
+<body>
+<h2>WebSocket STOMP Test</h2>
+
+<div>
+    <h2> CONNECT </h2>
+</div>
+
+<button onclick="connect()">Connect Web STOMP</button>
+
+<div>
+    <h2> SUBSCRIBE </h2>
+    <label for="userId">User ID:</label>
+    <input id="userId" placeholder="Enter user ID" type="text" value="user1">
+    <br>
+    <label for="roomId">Room ID:</label>
+    <input id="roomId" placeholder="Enter room ID" type="text" value="test-room">
+    <button onclick="subscribe()">Subscribe</button>
+
+</div>
+
+
+<div>
+    <h2> SEND </h2>
+    <input id="messageInput" placeholder="Enter your message" type="text"/>
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+
+<ul id="messageList"></ul>
+
+<script>
+    var stompClient = null;
+
+    function connect() {
+        var socket = new WebSocket('https://water-melon.p-e.kr/messaging-service/ws');
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({},
+            function (frame) {
+                console.log('Connected to room: ' + roomId + ' as user: ' + userId);
+            },
+            function (error) {
+                console.error('Connection error: ', error);
+            }
+        );
+    }
+
+    function subscribe() {
+        var roomId = document.getElementById('roomId').value;
+        var userId = document.getElementById('userId').value;
+        stompClient.subscribe(
+            '/room/' + roomId,
+            function (messageOutput) {
+                showMessageOutput(messageOutput.body);
+            },
+            {
+                userId: userId
+            });
+    }
+
+    function sendMessage() {
+        var roomId = document.getElementById('roomId').value;
+        var userId = document.getElementById('userId').value;
+        var messageInput = document.getElementById('messageInput').value;
+        var headers = {
+            'custom-header': 'myCustomValue', // 원하는 헤더 추가
+            'priority': 'high',
+            userId: userId,
+            type: "text"
+        };
+        var jsonMessage = {
+            content: messageInput,
+            contentType: "TEXT",
+            senderId: userId,
+        };
+        stompClient.send("/publish/room/" + roomId, headers, JSON.stringify(jsonMessage)); // 헤더와 메시지 전송
+        document.getElementById('messageInput').value = '';
+    }
+
+    function showMessageOutput(message) {
+        var messageList = document.getElementById('messageList');
+        var li = document.createElement('li');
+        li.appendChild(document.createTextNode(message));
+        messageList.appendChild(li);
+    }
+</script>
+</body>
+</html>

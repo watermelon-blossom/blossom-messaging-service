@@ -29,7 +29,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/publish");
-        // registry.enableSimpleBroker("/room", "/user");
+        // registry.enableSimpleBroker("/room", "/user","/test");
     }
 
     // 클라이언트 인바운드 채널을 구성하는 메서드
