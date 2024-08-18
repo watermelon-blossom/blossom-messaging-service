@@ -40,6 +40,10 @@ spring:
     consumer:
       group-id: ${random.uuid}
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    properties.sasl.mechanism: PLAIN
+    properties.sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username='YV6LHLNGR6ZR3XHM' password='uXKsGFwft/M5+OT1NyMItM//6B2iWSHl+DrzVQoQRYgtU1Xf9X/OREIWBpaSUloe';
+    properties.security.protocol: SASL_SSL
+    properties.session.timeout.ms: 45000
 
 logging:
   level:

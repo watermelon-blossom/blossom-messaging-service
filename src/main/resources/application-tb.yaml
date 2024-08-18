@@ -25,6 +25,8 @@ spring:
     mongodb:
       uri: ${SPRING_DATA_MONGODB_URI}
 
+
+
   kafka:
     topic:
       names: message
@@ -36,6 +38,11 @@ spring:
     consumer:
       group-id: ${random.uuid}
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    properties.sasl.mechanism: PLAIN
+    properties.sasl.jaas.config: ${SPRING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG}
+    properties.security.protocol: SASL_SSL
+    properties.session.timeout.ms: 45000
+
 
 logging:
   level:
