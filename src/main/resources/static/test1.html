@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>WebSocket STOMP Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+</head>
+<body>
+<div>
+    <input id="messageInput" placeholder="Enter your message" type="text"/>
+    <button onclick="sendMessage()">Send</button>
+</div>
+<ul id="messageList"></ul>
+
+<script>
+    var stompClient = null;
+
+    function connect() {
+        var socket = new WebSocket('ws://localhost:8080/messaging-service/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({
+            userId: 1
+        }, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/room/1', function (messageOutput) {
+                showMessageOutput(messageOutput.body);
+            });
+        });
+    }
+
+    function sendMessage() {
+        var messageInput = document.getElementById('messageInput').value;
+        var headers = {
+            'custom-header': 'myCustomValue', // 원하는 헤더 추가
+            'priority': 'high'
+        };
+        var jsonMessage = {
+            content: messageInput,
+            senderId: "user1",
+            // type: "text"
+        };
+        stompClient.send("/publish/room/1", headers, JSON.stringify(jsonMessage)); // 헤더와 메시지 전송
+        document.getElementById('messageInput').value = '';
+    }
+
+    function showMessageOutput(message) {
+        var messageList = document.getElementById('messageList');
+        var li = document.createElement('li');
+        li.appendChild(document.createTextNode(message));
+        messageList.appendChild(li);
+    }
+
+    connect();
+</script>
+</body>
+</html>
