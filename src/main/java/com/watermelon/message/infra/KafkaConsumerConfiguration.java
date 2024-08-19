@@ -26,52 +26,68 @@ import lombok.extern.slf4j.Slf4j;
 @EnableKafka
 @Configuration
 public class KafkaConsumerConfiguration {
-    @Value("${spring.kafka.bootstrap-servers}")
-    private String bootstrapServer;
+	@Value("${spring.kafka.bootstrap-servers}")
+	private String bootstrapServer;
 
-    @Value("${spring.kafka.consumer.group-id}")
-    private String groupId;
+	@Value("${spring.kafka.consumer.group-id}")
+	private String groupId;
 
-    @Value("${spring.kafka.consumer.key-deserializer}")
-    private String keyDeserializer;
+	@Value("${spring.kafka.consumer.key-deserializer}")
+	private String keyDeserializer;
 
-    // Kafka ConsumerFactory를 생성하는 Bean 메서드
-    @Bean
-    public ConsumerFactory<String, ChatResponse> consumerFactory() {
-        JsonDeserializer<ChatResponse> deserializer = new JsonDeserializer<>();
-        deserializer.addTrustedPackages("*");
-        ImmutableMap<String, Object> properties = ImmutableMap.<String, Object>builder()
-            .put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer)
-            .put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
-            .put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, keyDeserializer)
-            .put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer)
-            .put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest")
-            .build();
+	@Value("${spring.kafka.properties.sasl.mechanism}")
+	private String saslMechanism;
 
-        return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), deserializer);
-    }
+	@Value("${spring.kafka.properties.sasl.jaas.config}")
+	private String saslJaasConfig;
 
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ChatResponse> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, ChatResponse> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
-        ContainerProperties prop = factory.getContainerProperties();
-        prop.setConsumerRebalanceListener(rebalanceListener());
-        return factory;
-    }
+	@Value("${spring.kafka.properties.security.protocol}")
+	private String securityProtocol;
 
-    @Bean
-    public ConsumerAwareRebalanceListener rebalanceListener() {
-        return new ConsumerAwareRebalanceListener() {
-            @Override
-            public void onPartitionsAssigned(Consumer<?, ?> consumer, Collection<TopicPartition> partitions) {
-                // here partitions
-                for (TopicPartition partition : partitions) {
-                    int partitionNumber = partition.partition();
-                    log.info("사용중인파티션:{}", partitionNumber);
-                }
-            }
-        };
-    }
+	@Value("${spring.kafka.properties.session.timeout.ms}")
+	private String sessionTimeOut;
+
+	// Kafka ConsumerFactory를 생성하는 Bean 메서드
+	@Bean
+	public ConsumerFactory<String, ChatResponse> consumerFactory() {
+		JsonDeserializer<ChatResponse> deserializer = new JsonDeserializer<>();
+		deserializer.addTrustedPackages("*");
+		ImmutableMap<String, Object> properties = ImmutableMap.<String, Object>builder()
+			.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer)
+			.put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
+			.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, keyDeserializer)
+			.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer)
+			.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest")
+			.put("sasl.mechanism", saslMechanism)
+			.put("sasl.jaas.config", saslJaasConfig)
+			.put("security.protocol", securityProtocol)
+			.put("session.timeout.ms", sessionTimeOut)
+			.build();
+
+		return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), deserializer);
+	}
+
+	@Bean
+	public ConcurrentKafkaListenerContainerFactory<String, ChatResponse> kafkaListenerContainerFactory() {
+		ConcurrentKafkaListenerContainerFactory<String, ChatResponse> factory = new ConcurrentKafkaListenerContainerFactory<>();
+		factory.setConsumerFactory(consumerFactory());
+		ContainerProperties prop = factory.getContainerProperties();
+		prop.setConsumerRebalanceListener(rebalanceListener());
+		return factory;
+	}
+
+	@Bean
+	public ConsumerAwareRebalanceListener rebalanceListener() {
+		return new ConsumerAwareRebalanceListener() {
+			@Override
+			public void onPartitionsAssigned(Consumer<?, ?> consumer, Collection<TopicPartition> partitions) {
+				// here partitions
+				for (TopicPartition partition : partitions) {
+					int partitionNumber = partition.partition();
+					log.info("사용중인파티션:{}", partitionNumber);
+				}
+			}
+		};
+	}
 
 }
