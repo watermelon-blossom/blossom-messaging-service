@@ -36,7 +36,9 @@ spring:
       group-id: ${random.uuid}
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     properties.session.timeout.ms: 45000
-
+    properties.sasl.mechanism: PLAIN
+    properties.sasl.jaas.config: nada
+    properties.security.protocol: SASL_SSL
 
 logging:
   level:
