@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>WebSocket STOMP Test</title>
-    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <!--    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>-->
 </head>
 <body>
 <h2>WebSocket STOMP Test</h2>
@@ -36,7 +36,58 @@
 
 <ul id="messageList"></ul>
 
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js">
+</script>
+
 <script>
+
+    var client = null
+
+    function connect() {
+        console.log("trying to connect!")
+        const client = new StompJs.Client({
+            brokerURL: "wss://water-melon.p-e.kr/messaging-service/ws",
+            // brokerURL: process.env.EXPO_PUBLIC_WS_BASE_URL as string,
+            connectHeaders: {
+                // userId: "1",
+                // Authorization: Bearer ${TOKEN},
+            },
+            reconnectDelay: 5000, //자동 재 연결
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
+        });
+
+        // cb settings
+
+        client.onConnect = (frame) => {
+            console.log("WebSocket 연결이 열렸습니다.");
+
+            setChatSubscripttion(
+                client.subscribe("/room/66b256cf08a42f5c319750f2", (message) => {
+                    if (message.body) {
+                        console.log(message.body);
+                    }
+                })
+            );
+
+            setUserSubscription(
+                client.subscribe(
+                    "/room/66b256cf08a42f5c319750f2/user/KIMID",
+                    (message) => {
+                        if (message.body) {
+                            console.log(message.body);
+                        }
+                    }
+                )
+            );
+        };
+
+        client.activate();
+    }
+
+    window.connect = connect
+
+
     var stompClient = null;
 
     function connect() {

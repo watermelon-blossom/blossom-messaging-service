@@ -25,6 +25,7 @@ COPY --from=build /dateapp/build/libs/*.jar app.jar
 
 # 애플리케이션 사용포트 지정
 EXPOSE 8080
+EXPOSE 8081
 
 # 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "app.jar"]
