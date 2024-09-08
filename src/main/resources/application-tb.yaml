@@ -4,7 +4,6 @@ server:
     context-path: /messaging-service
 
 socket-server:
-  context-path: /messaging-service-socket
   port: 8081
   host: water-melon.p-e.kr
 

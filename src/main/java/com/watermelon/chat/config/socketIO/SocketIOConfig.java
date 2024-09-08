@@ -13,17 +13,13 @@ public class SocketIOConfig {
 	private String host;
 
 	@Value("${socket-server.port}")
-	private String port;
-
-	@Value("${socket-server.context-path}")
-	private String contextPath;
+	private Integer port;
 
 	@Bean
 	public SocketIOServer socketIOServer() {
 		com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
 		config.setHostname(host);
-		config.setPort(Integer.parseInt(port));
-		config.setContext(contextPath);
+		config.setPort(port);
 		return new SocketIOServer(config);
 	}
 

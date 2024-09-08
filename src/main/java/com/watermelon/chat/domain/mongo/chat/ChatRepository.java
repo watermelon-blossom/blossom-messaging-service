@@ -12,5 +12,7 @@ import com.watermelon.chat.dto.chat.ChatResponse;
 public interface ChatRepository extends MongoRepository<Chat, String> {
 
 	// createdAt이 특정 시간 이전인 항목을 20개 조회
-	List<ChatResponse> findTop20ByRoomIdAndSendDateBeforeOrderBySendDateDesc(String roomId, LocalDateTime createdAt);
+	List<ChatResponse> findTop20ByRoomIdAndSendDateBeforeOrderBySendDateDesc(String roomId, LocalDateTime sendDate);
+
+	List<ChatResponse> findTop20ByRoomIdOrderBySendDateDesc(String roomId);
 }

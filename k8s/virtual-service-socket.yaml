@@ -11,7 +11,7 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /messaging-service-socket
+            prefix: /chat
       #      rewrite:
       #        uri: /
       route:

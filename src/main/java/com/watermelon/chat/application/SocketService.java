@@ -36,14 +36,16 @@ public class SocketService {
 	 * message: 소켓들에게 Broadcasting 할 메시지
 	 */
 	public void broadcastToRoom(SocketIOClient senderClient, SendChatRequest sendChatRequest) {
+		log.info("broadCasting To [{}]", sendChatRequest);
+		// room name (namespace)
 		String roomId = sendChatRequest.roomId();
+
 		ChatResponse chatResponse = chatService.save(sendChatRequest);
-		for (SocketIOClient client : senderClient.getNamespace().getRoomOperations(roomId).getClients()) {
-			client.sendEvent(BROADCAST.toString(), chatResponse);
-		}
+		// server.getNamespace("/chat").getRoomOperations(roomId).sendEvent(BROADCAST.toString(), chatResponse);
+		senderClient.getNamespace().getRoomOperations(roomId).sendEvent(BROADCAST.toString(), chatResponse);
 	}
 
-	public void onConnectReturnChatsToClient(String roomId, SocketIOClient senderClient) {
-		senderClient.sendEvent(INIT.toString(), chatRoomService.getChatRoomEntityByRoomId(roomId).get20LatestChat());
+	public void onConnectReturnChatsToClient(String roomId, AckRequest ackSender) {
+		ackSender.sendAckData(chatService.getLatest20Chats(roomId));
 	}
 }

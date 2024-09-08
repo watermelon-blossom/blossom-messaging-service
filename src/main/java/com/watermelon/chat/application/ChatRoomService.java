@@ -48,10 +48,6 @@ public class ChatRoomService {
 			new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
 	}
 
-	public ChatRoom getChatRoomEntityByRoomIdAndLastMessageId(String roomId) {
-		return chatRoomRepository.findById(roomId).orElseThrow(() ->
-			new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
-	}
 
 	public String createChatRoom(CreateChatRoomRequest request) {
 		//TODO check if users in request is valid

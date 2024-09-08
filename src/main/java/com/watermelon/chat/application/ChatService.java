@@ -34,6 +34,10 @@ public class ChatService {
 		return chatRepository.findTop20ByRoomIdAndSendDateBeforeOrderBySendDateDesc(roomId, lastMessageSendTime);
 	}
 
+	public List<ChatResponse> getLatest20Chats(String roomId) {
+		return chatRepository.findTop20ByRoomIdOrderBySendDateDesc(roomId);
+	}
+
 	@Transactional
 	public ChatResponse save(SendChatRequest request) {
 		//save Chatting to repository
