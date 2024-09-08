@@ -1,10 +1,6 @@
 package com.watermelon.chat.application;
 
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-
-import com.watermelon.chat.dto.chat.ChatResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class KafkaMessageService {
-
-	private final KafkaTemplate<String, ChatResponse> kafkaTemplate;
-	private final ChatService chatService;
-	private final SimpMessagingTemplate template;
+	//
+	// private final KafkaTemplate<String, ChatResponse> kafkaTemplate;
+	// private final ChatService chatService;
+	// private final SimpMessagingTemplate template;
 
 	// //producer
 	// public void send(String topic, String roomId, SendChatRequest messageDto) {

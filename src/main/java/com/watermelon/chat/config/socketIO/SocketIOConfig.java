@@ -15,7 +15,7 @@ public class SocketIOConfig {
 	@Value("${socket-server.port}")
 	private String port;
 
-	@Value("${socket-server.port}")
+	@Value("${socket-server.context-path}")
 	private String contextPath;
 
 	@Bean
