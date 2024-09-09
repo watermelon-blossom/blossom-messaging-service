@@ -5,7 +5,7 @@ server:
 
 socket-server:
   port: 8081
-  host: water-melon.p-e.kr
+  host: 0.0.0.0
 
 spring:
   # Postgresql Config
