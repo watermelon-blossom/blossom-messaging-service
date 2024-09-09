@@ -50,11 +50,8 @@ spring:
 
 logging:
   level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: trace
+    com.corundumstudio.socketio: debug
+    web: debug
 
 modules:
   endpoints:
