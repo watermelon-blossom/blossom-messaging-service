@@ -39,9 +39,11 @@ spec:
   selector:
     app: messaging-service
   ports:
-    - protocol: TCP
+    - name: web
+      protocol: TCP
       port: 8080
       targetPort: 8080
-    - protocol: TCP
+    - name: socekt
+      protocol: TCP
       port: 8081
       targetPort: 8081

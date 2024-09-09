@@ -1,17 +1,15 @@
 package com.watermelon.chat.application;
 
-import static com.watermelon.chat.config.socketIO.SocketServerEvent.*;
-
-import org.springframework.stereotype.Service;
-
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.watermelon.chat.dto.chat.ChatResponse;
 import com.watermelon.chat.dto.chat.SendChatRequest;
 import com.watermelon.chat.dto.chatRoom.GetChatRoomByLastMessageId;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import static com.watermelon.chat.config.socketIO.SocketServerEvent.BROADCAST;
 
 /*
  * 소켓 관련 비즈니스 로직 수행
@@ -37,11 +35,9 @@ public class SocketService {
 	 */
 	public void broadcastToRoom(SocketIOClient senderClient, SendChatRequest sendChatRequest) {
 		log.info("broadCasting To [{}]", sendChatRequest);
-		// room name (namespace)
 		String roomId = sendChatRequest.roomId();
 
 		ChatResponse chatResponse = chatService.save(sendChatRequest);
-		// server.getNamespace("/chat").getRoomOperations(roomId).sendEvent(BROADCAST.toString(), chatResponse);
 		senderClient.getNamespace().getRoomOperations(roomId).sendEvent(BROADCAST.toString(), chatResponse);
 	}
 
