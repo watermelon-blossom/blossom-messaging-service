@@ -31,7 +31,6 @@ public class ChatSocketModule {
 
 		// 소켓 서버에서 연결 해제 시 콜백 지정
 		server.addDisconnectListener(onDisconnected());
-
 		server.getNamespace("/chat").addEventListener(JOIN.toString(), JoinChatRoomRequest.class, onJoinReceived());
 		server.getNamespace("/chat").addEventListener(SEND.toString(), SendChatRequest.class, onChatReceived());
 		server.getNamespace("/chat")
@@ -39,12 +38,12 @@ public class ChatSocketModule {
 
 	}
 
-	// 채팅 로드 요청 때 실행
+	// 채팅방 입장 요청 때 실행
 	private DataListener<JoinChatRoomRequest> onJoinReceived() {
 		return (senderClient, data, ackSender) -> {
 			log.info("roomId = " + data.roomId());
 			senderClient.joinRoom(data.roomId());
-			socketService.onConnectReturnChatsToClient(data.roomId(), ackSender);
+			socketService.onJoin(data.roomId(), ackSender);
 		};
 	}
 

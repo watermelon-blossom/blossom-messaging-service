@@ -1,13 +1,12 @@
 package com.watermelon.chat.domain.mongo.chat;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -28,5 +27,14 @@ public class ChatReadService {
 
 		// 조건에 맞는 문서들을 한 번에 업데이트
 		mongoTemplate.updateMulti(query, update, Chat.class);
+	}
+
+	public long getUnReadInRoomWithRoomIdAndUserId(String roomId, String userId) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("roomId").is(roomId)
+				.and("senderId").ne(userId)
+				.and("hasRead").is(false));
+
+		return mongoTemplate.count(query, Chat.class);
 	}
 }

@@ -21,6 +21,7 @@ public enum ErrorType {
 	NOT_ENOUGH_USERS_TO_CREATE_CHAT_ROOM(400, "NOT_ENOUGH_USERS_TO_CREATE_CHAT_ROOM", "채팅방 생성시 이용자는 2명이어야 합니다."),
 	NOT_VALID_USERS_TO_CREATE_CHAT_ROOM(400, "NOT_VALID_USER_TO_CREATE_CHAT_ROOM", "채팅방 생성시 이용자 아이디가 없을 수 없습니다."),
 	NO_SUCH_CHATROOM(404, "NO_SUCH_CHATROOM", "채팅방을 찾을 수 없습니다."),
+	NO_SUCH_USER_IN_CHATROOM(404, "NO_SUCH_USER_IN_CHATROOM", "해당를 유저 찾을 수 없습니다."),
 
 	// chat
 	NO_SUCH_CHAT(404, "NO_SUCH_CHAT", "채팅을 찾을 수 없습니다."),
