@@ -1,5 +1,6 @@
 package com.watermelon.chat.application;
 
+import com.watermelon.chat.domain.mongo.chat.Chat;
 import com.watermelon.chat.domain.mongo.chatRoom.ChatRoom;
 import com.watermelon.chat.domain.mongo.chatRoom.ChatRoomRepository;
 import com.watermelon.chat.domain.mongo.chatRoom.ChatUsers;
@@ -39,9 +40,12 @@ public class ChatRoomService {
 		return ChatRoomResponse.from(room, 0);
 	}
 
-	public ChatRoom getChatRoomEntityByRoomId(String roomId) {
-		return chatRoomRepository.findById(roomId).orElseThrow(() ->
-			new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
+	@Transactional
+	public void saveChatIntoChatroom(Chat chat) {
+		ChatRoom chatRoom = chatRoomRepository.findById(chat.getRoomId()).orElseThrow(() ->
+				new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
+		chatRoom.addChat(chat);
+		chatRoomRepository.save(chatRoom);
 	}
 
 

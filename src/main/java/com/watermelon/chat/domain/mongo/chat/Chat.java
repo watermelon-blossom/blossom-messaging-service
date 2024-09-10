@@ -1,19 +1,18 @@
 package com.watermelon.chat.domain.mongo.chat;
 
-import java.time.LocalDateTime;
-
+import com.watermelon.chat.application.ChatRoomService;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Document(collection = "chats")
 public class Chat {
 
 	@Id
@@ -28,6 +27,10 @@ public class Chat {
 
 	public void checkRead() {
 		hasRead = true;
+	}
+
+	public void syncWithChatRoom(ChatRoomService chatRoomService) {
+		chatRoomService.saveChatIntoChatroom(this);
 	}
 
 }
