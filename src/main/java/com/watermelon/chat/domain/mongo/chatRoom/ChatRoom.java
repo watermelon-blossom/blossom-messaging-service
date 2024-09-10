@@ -40,7 +40,6 @@ public class ChatRoom extends BaseEntity {
 	}
 
 	public void deleteRoom() {
-		this.chatUsers = null;
 		this.roomStatus = RoomStatus.DELETED;
 	}
 

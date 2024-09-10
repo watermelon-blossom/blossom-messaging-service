@@ -28,26 +28,10 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/watermelon-test
 
-  kafka:
-    topic:
-      names: message
-    bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
-    listener:
-      type: batch
-      concurrency: 1
-      ack-mode: batch
-    consumer:
-      group-id: ${random.uuid}
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
-
 logging:
   level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: trace
+    com.corundumstudio.socketio: debug
+    web: debug
 
 modules:
   endpoints:
