@@ -1,5 +1,5 @@
 # 1단계 : Gradle 7.6.2 버전 빌드 이미지 기반으로 프로젝트 빌드
-FROM gradle:8-jdk AS build
+FROM gradle:7.6.2-jdk17 AS build
 
 # 작업 디렉토리 설정
 WORKDIR /dateapp
