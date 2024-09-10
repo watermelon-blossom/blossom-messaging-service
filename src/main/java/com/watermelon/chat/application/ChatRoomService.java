@@ -65,6 +65,7 @@ public class ChatRoomService {
 			.orElseThrow(() -> new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
 
 		chatRoom.deleteRoom();
+		chatRoomRepository.save(chatRoom);
 	}
 
 	public boolean isUserInRoom(String roomId, String userId) {

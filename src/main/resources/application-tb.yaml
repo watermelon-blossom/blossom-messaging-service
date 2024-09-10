@@ -4,8 +4,12 @@ server:
     context-path: /messaging-service
 
 socket-server:
-  port: 8081
   host: 0.0.0.0
+  port: 8081
+
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
 
 spring:
   # Postgresql Config
