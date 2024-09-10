@@ -1,11 +1,5 @@
 package com.watermelon.chat.application;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import com.watermelon.chat.domain.mongo.chatRoom.ChatRoom;
 import com.watermelon.chat.domain.mongo.chatRoom.ChatRoomRepository;
 import com.watermelon.chat.domain.mongo.chatRoom.ChatUsers;
@@ -14,13 +8,19 @@ import com.watermelon.chat.dto.chatRoom.CreateChatRoomRequest;
 import com.watermelon.chat.dto.chatRoom.GetChatRoomRequest;
 import com.watermelon.chat.global.error.ApplicationException;
 import com.watermelon.chat.global.error.ErrorType;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ChatRoomService {
 	private final ChatRoomRepository chatRoomRepository;
 
@@ -29,12 +29,8 @@ public class ChatRoomService {
 		//TODO check if users in request is valid
 
 		List<ChatRoom> chatRooms = chatRoomRepository.findByUserId(request.userId(), pageable);
-		List<ChatRoomResponse> chatRoomResponses =
-			chatRooms.stream()
-				.map(chatRoom -> ChatRoomResponse.from(chatRoom, 0)
-				).toList();
 
-		return chatRoomResponses;
+		return chatRooms.stream().map(chatRoom -> ChatRoomResponse.from(chatRoom, 0)).toList();
 	}
 
 	public ChatRoomResponse getChatRoomByRoomId(String roomId) {
@@ -49,6 +45,7 @@ public class ChatRoomService {
 	}
 
 
+	@Transactional
 	public String createChatRoom(CreateChatRoomRequest request) {
 		//TODO check if users in request is valid
 		ChatUsers chatUsers = ChatUsers.createChatUsers(request.userIds());
@@ -58,6 +55,7 @@ public class ChatRoomService {
 		return room.getId();
 	}
 
+	@Transactional
 	public void deleteChatRoom(String roomId) {
 		ChatRoom chatRoom = chatRoomRepository.findById(roomId)
 			.orElseThrow(() -> new ApplicationException(ErrorType.NO_SUCH_CHATROOM));

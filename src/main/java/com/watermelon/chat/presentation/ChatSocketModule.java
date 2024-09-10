@@ -1,8 +1,4 @@
-package com.watermelon.chat.config.socketIO;
-
-import static com.watermelon.chat.config.socketIO.SocketClientEvent.*;
-
-import org.springframework.stereotype.Component;
+package com.watermelon.chat.presentation;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
@@ -12,8 +8,10 @@ import com.watermelon.chat.application.SocketService;
 import com.watermelon.chat.dto.chat.SendChatRequest;
 import com.watermelon.chat.dto.chatRoom.GetChatRoomByLastMessageId;
 import com.watermelon.chat.dto.chatRoom.JoinChatRoomRequest;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import static com.watermelon.chat.config.socketIO.SocketClientEvent.*;
 
 @Slf4j
 @Component
