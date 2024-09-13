@@ -20,8 +20,7 @@ import org.springframework.stereotype.Component;
 import java.util.LinkedHashMap;
 
 import static com.watermelon.chat.config.socketIO.SocketClientEvent.*;
-import static com.watermelon.chat.global.error.ErrorType.CONNECT_WITHOUT_AUTH_TOKEN;
-import static com.watermelon.chat.global.error.ErrorType.INVALID_AUTH_TOKEN;
+import static com.watermelon.chat.global.error.ErrorType.*;
 
 @Slf4j
 @Component
@@ -70,20 +69,19 @@ public class ChatSocketModule {
 
     private AuthTokenListener jwtAuthListener() {
         return (tokenObject, senderClient) -> {
-            log.info("access jwtAuthListener");
-            return AuthTokenResult.AuthTokenResultSuccess;
-//            String jwtToken = parseTokenObject(tokenObject);
-//            validateTokenExist(jwtToken);
-//            String jwt = jwtToken.split(" ")[1];
-//            boolean hasValidated = jwtUtils.validateToken(jwtToken);
-//            if (hasValidated) {
-//                senderClient.set("userId", jwtUtils.getUserIdFromJwt(jwt));
-//                return AuthTokenResult.AuthTokenResultSuccess;
-//            } else {
-//                return new AuthTokenResult(false, ErrorType.UNAUTHENTICATED);
-//            }
+            String jwtToken = parseTokenObject(tokenObject);
+            validateTokenExist(jwtToken);
+            String jwt = jwtToken.split(" ")[1];
+            boolean hasValidated = jwtUtils.validateToken(jwtToken);
+            if (hasValidated) {
+                senderClient.set("userId", jwtUtils.getUserIdFromJwt(jwt));
+                return AuthTokenResult.AuthTokenResultSuccess;
+            } else {
+                return new AuthTokenResult(false, UNAUTHENTICATED);
+            }
         };
     }
+
 
     // 채팅방 입장 요청 때 실행
     private DataListener<JoinChatRoomRequest> onJoinReceived() {
