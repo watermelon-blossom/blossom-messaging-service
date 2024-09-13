@@ -33,6 +33,11 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/watermelon-test
 
+jwt:
+  secret: de5adebf66b7b94b007ca46403cf797c92eb63d9c55e70239cf927dfaac15211
+  expiration_date: 8640000
+
+
 logging:
   level:
     com.corundumstudio.socketio: debug

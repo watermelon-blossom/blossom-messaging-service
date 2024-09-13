@@ -29,6 +29,13 @@ public class SocketIOConfig {
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setHostname(host);
         config.setPort(port);
+        config.setOrigin("*");
+//        config.setAuthorizationListener(new AuthorizationListener() {
+//            @Override
+//            public AuthorizationResult getAuthorizationResult(HandshakeData data) {
+//                return AuthorizationResult.SUCCESSFUL_AUTHORIZATION;
+//            }
+//        });
 
         SocketConfig socketConfig = config.getSocketConfig();
         socketConfig.setReuseAddress(true);

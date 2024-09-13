@@ -44,9 +44,9 @@ public class SocketService {
         senderClient.getNamespace().getRoomOperations(roomId).sendEvent(BROADCAST.toString(), chatResponse);
     }
 
-    public void onJoin(String roomId, AckRequest ackSender) {
+    public void onJoin(String roomId, String userId, AckRequest ackSender) {
         ChatRoom chatRoom = chatRoomService.getChatRoomEntityByRoomId(roomId);
-        chatRoom.readRoomByUser(chatReadService, "joonhyeok");
+        chatRoom.readRoomByUser(chatReadService, userId);
         ackSender.sendAckData(chatService.getLatest20Chats(roomId));
     }
 }
