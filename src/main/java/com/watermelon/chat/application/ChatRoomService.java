@@ -1,6 +1,7 @@
 package com.watermelon.chat.application;
 
 import com.watermelon.chat.domain.mongo.chat.Chat;
+import com.watermelon.chat.domain.mongo.chat.ChatReadService;
 import com.watermelon.chat.domain.mongo.chatRoom.ChatRoom;
 import com.watermelon.chat.domain.mongo.chatRoom.ChatRoomRepository;
 import com.watermelon.chat.domain.mongo.chatRoom.ChatUsers;
@@ -23,53 +24,54 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ChatRoomService {
-	private final ChatRoomRepository chatRoomRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    private final ChatReadService chatReadService;
 
-	public List<ChatRoomResponse> getChatRoomByUserId(GetChatRoomRequest request, Pageable pageable) {
+    public List<ChatRoomResponse> getChatRoomByUserId(GetChatRoomRequest request, Pageable pageable) {
 
-		//TODO check if users in request is valid
+        //TODO check if users in request is valid
 
-		List<ChatRoom> chatRooms = chatRoomRepository.findByUserId(request.userId(), pageable);
+        List<ChatRoom> chatRooms = chatRoomRepository.findByUserId(request.userId(), pageable);
+        return chatRooms.stream().map(chatRoom -> ChatRoomResponse.from(chatRoom, chatRoom.getUnreadCountOf(chatReadService, request.userId()))).toList();
+    }
 
-		return chatRooms.stream().map(chatRoom -> ChatRoomResponse.from(chatRoom, 0)).toList();
-	}
+    public ChatRoomResponse getChatRoomByRoomId(String roomId) {
+        ChatRoom room = chatRoomRepository.findById(roomId).orElseThrow(() -> new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
+        return ChatRoomResponse.from(room, 0);
+    }
 
-	public ChatRoomResponse getChatRoomByRoomId(String roomId) {
-		ChatRoom room = chatRoomRepository.findById(roomId).orElseThrow(() ->
-			new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
-		return ChatRoomResponse.from(room, 0);
-	}
+    public ChatRoom getChatRoomEntityByRoomId(String roomId) {
+        return chatRoomRepository.findById(roomId).orElseThrow(() -> new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
+    }
 
-	@Transactional
-	public void saveChatIntoChatroom(Chat chat) {
-		ChatRoom chatRoom = chatRoomRepository.findById(chat.getRoomId()).orElseThrow(() ->
-				new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
-		chatRoom.addChat(chat);
-		chatRoomRepository.save(chatRoom);
-	}
+    @Transactional
+    public void saveChatIntoChatroom(Chat chat) {
+        ChatRoom chatRoom = chatRoomRepository.findById(chat.getRoomId()).orElseThrow(() -> new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
+        chatRoom.addChat(chat);
+        chatRoomRepository.save(chatRoom);
+    }
 
 
-	@Transactional
-	public String createChatRoom(CreateChatRoomRequest request) {
-		//TODO check if users in request is valid
-		ChatUsers chatUsers = ChatUsers.createChatUsers(request.userIds());
-		ChatRoom chatRoom = ChatRoom.createChatRoom(chatUsers);
+    @Transactional
+    public String createChatRoom(CreateChatRoomRequest request) {
+        //TODO check if users in request is valid
+        ChatUsers chatUsers = ChatUsers.createChatUsers(request.userIds());
+        ChatRoom chatRoom = ChatRoom.createChatRoom(chatUsers);
 
-		ChatRoom room = chatRoomRepository.save(chatRoom);
-		return room.getId();
-	}
+        ChatRoom room = chatRoomRepository.save(chatRoom);
+        return room.getId();
+    }
 
-	@Transactional
-	public void deleteChatRoom(String roomId) {
-		ChatRoom chatRoom = chatRoomRepository.findById(roomId)
-			.orElseThrow(() -> new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
+    @Transactional
+    public void deleteChatRoom(String roomId) {
+        ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(() -> new ApplicationException(ErrorType.NO_SUCH_CHATROOM));
 
-		chatRoom.deleteRoom();
-		chatRoomRepository.save(chatRoom);
-	}
+        chatRoom.deleteRoom();
+        chatRoomRepository.save(chatRoom);
+    }
 
-	public boolean isUserInRoom(String roomId, String userId) {
-		Optional<ChatRoom> room = chatRoomRepository.findById(roomId);
-		return room.map(chatRoom -> chatRoom.isUserInRoom(userId)).orElse(false);
-	}
+    public boolean isUserInRoom(String roomId, String userId) {
+        Optional<ChatRoom> room = chatRoomRepository.findById(roomId);
+        return room.map(chatRoom -> chatRoom.isUserInRoom(userId)).orElse(false);
+    }
 }
