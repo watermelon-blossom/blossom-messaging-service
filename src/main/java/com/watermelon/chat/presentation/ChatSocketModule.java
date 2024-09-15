@@ -72,7 +72,7 @@ public class ChatSocketModule {
             String jwtToken = parseTokenObject(tokenObject);
             validateTokenExist(jwtToken);
             String jwt = jwtToken.split(" ")[1];
-            boolean hasValidated = jwtUtils.validateToken(jwtToken);
+            boolean hasValidated = jwtUtils.validateToken(jwt);
             if (hasValidated) {
                 senderClient.set("userId", jwtUtils.getUserIdFromJwt(jwt));
                 return AuthTokenResult.AuthTokenResultSuccess;
