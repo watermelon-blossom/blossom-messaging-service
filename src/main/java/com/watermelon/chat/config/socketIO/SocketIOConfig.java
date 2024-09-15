@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static com.corundumstudio.socketio.Transport.WEBSOCKET;
+
 @Configuration
 public class SocketIOConfig {
 
@@ -29,6 +31,14 @@ public class SocketIOConfig {
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setHostname(host);
         config.setPort(port);
+        config.setOrigin("*");
+        config.setTransports(WEBSOCKET);
+//        config.setAuthorizationListener(new AuthorizationListener() {
+//            @Override
+//            public AuthorizationResult getAuthorizationResult(HandshakeData data) {
+//                return AuthorizationResult.SUCCESSFUL_AUTHORIZATION;
+//            }
+//        });
 
         SocketConfig socketConfig = config.getSocketConfig();
         socketConfig.setReuseAddress(true);
