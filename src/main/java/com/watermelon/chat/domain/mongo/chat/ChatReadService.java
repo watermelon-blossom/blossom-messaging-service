@@ -1,5 +1,6 @@
 package com.watermelon.chat.domain.mongo.chat;
 
+import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -7,6 +8,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -36,5 +39,18 @@ public class ChatReadService {
 				.and("hasRead").is(false));
 
 		return mongoTemplate.count(query, Chat.class);
+	}
+
+	public long readByChatIds(List<String> chatIds) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").in(chatIds));
+
+		// 업데이트할 내용 정의: hasRead를 true로 설정
+		Update update = new Update();
+		update.set("hasRead", true);
+
+		// 조건에 맞는 문서들을 한 번에 업데이트
+		UpdateResult updateResult = mongoTemplate.updateMulti(query, update, Chat.class);
+		return updateResult.getMatchedCount();
 	}
 }

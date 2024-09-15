@@ -1,8 +1,8 @@
 package com.watermelon.chat.dto.chatRoom;
 
-public record GetChatRoomByLastMessageId(
+public record GetChatRoomByLastChatId(
 	String roomId,
-	String lastMessageId,
+    String lastChatId,
 	String limit
 ) {
 }

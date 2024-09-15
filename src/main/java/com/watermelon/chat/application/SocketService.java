@@ -5,8 +5,10 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.watermelon.chat.domain.mongo.chat.ChatReadService;
 import com.watermelon.chat.domain.mongo.chatRoom.ChatRoom;
 import com.watermelon.chat.dto.chat.ChatResponse;
+import com.watermelon.chat.dto.chat.ReadChatRequest;
+import com.watermelon.chat.dto.chat.ReadChatResponse;
 import com.watermelon.chat.dto.chat.SendChatRequest;
-import com.watermelon.chat.dto.chatRoom.GetChatRoomByLastMessageId;
+import com.watermelon.chat.dto.chatRoom.GetChatRoomByLastChatId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,8 +27,12 @@ public class SocketService {
     private final ChatService chatService;
     private final ChatReadService chatReadService;
 
-    public void sendNextToClient(GetChatRoomByLastMessageId request, AckRequest client) {
-        client.sendAckData(chatService.getChatFromLastMessageId(request.roomId(), request.lastMessageId()));
+    public void sendNextToClient(GetChatRoomByLastChatId request, AckRequest client) {
+        client.sendAckData(chatService.getChatFromLastMessageId(request.roomId(), request.lastChatId()));
+    }
+
+    public void readChat(ReadChatRequest request, AckRequest ackSender) {
+        ackSender.sendAckData(new ReadChatResponse(chatReadService.readByChatIds(request.chatIds())));
     }
 
     /*

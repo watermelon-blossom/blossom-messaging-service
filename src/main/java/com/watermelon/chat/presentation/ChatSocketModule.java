@@ -9,8 +9,9 @@ import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.watermelon.chat.application.SocketService;
+import com.watermelon.chat.dto.chat.ReadChatRequest;
 import com.watermelon.chat.dto.chat.SendChatRequest;
-import com.watermelon.chat.dto.chatRoom.GetChatRoomByLastMessageId;
+import com.watermelon.chat.dto.chatRoom.GetChatRoomByLastChatId;
 import com.watermelon.chat.dto.chatRoom.JoinChatRoomRequest;
 import com.watermelon.chat.global.error.ApplicationException;
 import com.watermelon.chat.security.JwtTokenProvider;
@@ -41,9 +42,10 @@ public class ChatSocketModule {
         // 소켓 서버에서 연결 해제 시 콜백 지정
         server.addDisconnectListener(onDisconnected());
         chatServer.addAuthTokenListener(jwtAuthListener());
+        chatServer.addEventListener(READ.toString(), ReadChatRequest.class, onReadChatReceived());
         chatServer.addEventListener(JOIN.toString(), JoinChatRoomRequest.class, onJoinReceived());
         chatServer.addEventListener(SEND.toString(), SendChatRequest.class, onChatReceived());
-        chatServer.addEventListener(NEXT.toString(), GetChatRoomByLastMessageId.class, onNextReceived());
+        chatServer.addEventListener(NEXT.toString(), GetChatRoomByLastChatId.class, onNextReceived());
 
     }
 
@@ -78,7 +80,6 @@ public class ChatSocketModule {
             String jwt = validateAndGetJwt(tokenObject);
             boolean hasValidated = jwtUtils.validateToken(jwt);
             if (hasValidated) {
-                senderClient.set("userId", jwtUtils.getUserIdFromJwt(jwt));
                 return AuthTokenResult.AuthTokenResultSuccess;
             } else {
                 return new AuthTokenResult(false, UNAUTHENTICATED);
@@ -96,8 +97,14 @@ public class ChatSocketModule {
         };
     }
 
+    private DataListener<ReadChatRequest> onReadChatReceived() {
+        return (senderClient, data, ackSender) -> {
+            socketService.readChat(data, ackSender);
+        };
+    }
+
     // 채팅 로드 요청 때 실행
-    private DataListener<GetChatRoomByLastMessageId> onNextReceived() {
+    private DataListener<GetChatRoomByLastChatId> onNextReceived() {
         return (senderClient, data, ackSender) -> {
             socketService.sendNextToClient(data, ackSender);
         };

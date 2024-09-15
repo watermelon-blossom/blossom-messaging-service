@@ -1,6 +1,7 @@
 package com.watermelon.chat.config.socketIO;
 
 public enum SocketClientEvent {
+	READ("read"),
 	JOIN("join"),
 	SEND("send"),
 	NEXT("next");
