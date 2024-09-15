@@ -34,6 +34,10 @@ spring:
     mongodb:
       uri: ${SPRING_DATA_MONGODB_URI}
 
+jwt:
+  secret: ${JWT_SECRET}
+  expiration_date: 8640000
+
 logging:
   level:
     com.corundumstudio.socketio: debug

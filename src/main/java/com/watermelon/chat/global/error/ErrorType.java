@@ -21,17 +21,25 @@ public enum ErrorType {
 	NOT_ENOUGH_USERS_TO_CREATE_CHAT_ROOM(400, "NOT_ENOUGH_USERS_TO_CREATE_CHAT_ROOM", "채팅방 생성시 이용자는 2명이어야 합니다."),
 	NOT_VALID_USERS_TO_CREATE_CHAT_ROOM(400, "NOT_VALID_USER_TO_CREATE_CHAT_ROOM", "채팅방 생성시 이용자 아이디가 없을 수 없습니다."),
 	NO_SUCH_CHATROOM(404, "NO_SUCH_CHATROOM", "채팅방을 찾을 수 없습니다."),
+	NO_SUCH_USER_IN_CHATROOM(404, "NO_SUCH_USER_IN_CHATROOM", "해당를 유저 찾을 수 없습니다."),
 
 	// chat
 	NO_SUCH_CHAT(404, "NO_SUCH_CHAT", "채팅을 찾을 수 없습니다."),
 
-	// STOMP
+	// SocketIO
 	NOT_VALID_USER_TO_ENTER_CHAT_ROOM(403, "NOT_VALID_USER_TO_ENTER_CHAT_ROOM", "잘못된 채팅방 접근입니다."),
+	CONNECT_WITHOUT_AUTH_TOKEN(401, "CONNECT_WITHOUT_AUTH_TOKEN", "Auth Token이 제공되지 않은 이용자 접근입니다."),
+	INVALID_AUTH_TOKEN(405, "INVALID_AUTH_TOKEN", "Auth Token Invalid."),
+	TOKEN_WITH_NO_USERID(412, "TOKEN_WITH_NO_USERID", "Auth Token에 userId 값이 없습니다"),
+
+
 	MESSAGE_WITH_NO_DESTINATION(412, "MESSAGE_WITH_NO_DESTINATION", "헤더에 destination 값이 없습니다"),
-	MESSAGE_WITH_NO_USERID_HEADER(412, "MESSAGE_WITH_NO_USERID_HEADER", "헤더에 userId 값이 없습니다"),
 	MESSAGE_WITH_NO_TYPE_HEADER(412, "MESSAGE_WITH_NO_TYPE_HEADER", "헤더에 type 값이 없습니다"),
 	MESSAGE_WITH_WRONG_TYPE_HEADER(412, "MESSAGE_WITH_WRONG_TYPE_HEADER", "헤더에 type값이 사전에 정의되지 않았습니다."),
+
+
 	;
+
 
 	private final int status;
 	private final String code;
