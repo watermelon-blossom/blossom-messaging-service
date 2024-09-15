@@ -40,7 +40,6 @@ public class ChatSocketModule {
 
         // 소켓 서버에서 연결 해제 시 콜백 지정
         server.addDisconnectListener(onDisconnected());
-
         chatServer.addAuthTokenListener(jwtAuthListener());
         chatServer.addEventListener(JOIN.toString(), JoinChatRoomRequest.class, onJoinReceived());
         chatServer.addEventListener(SEND.toString(), SendChatRequest.class, onChatReceived());
@@ -67,11 +66,16 @@ public class ChatSocketModule {
         return jwtToken;
     }
 
+    private static String validateAndGetJwt(Object tokenObject) {
+        String jwtToken = parseTokenObject(tokenObject);
+        validateTokenExist(jwtToken);
+        String jwt = jwtToken.split(" ")[1];
+        return jwt;
+    }
+
     private AuthTokenListener jwtAuthListener() {
         return (tokenObject, senderClient) -> {
-            String jwtToken = parseTokenObject(tokenObject);
-            validateTokenExist(jwtToken);
-            String jwt = jwtToken.split(" ")[1];
+            String jwt = validateAndGetJwt(tokenObject);
             boolean hasValidated = jwtUtils.validateToken(jwt);
             if (hasValidated) {
                 senderClient.set("userId", jwtUtils.getUserIdFromJwt(jwt));
@@ -82,13 +86,13 @@ public class ChatSocketModule {
         };
     }
 
-
     // 채팅방 입장 요청 때 실행
     private DataListener<JoinChatRoomRequest> onJoinReceived() {
         return (senderClient, data, ackSender) -> {
             log.info("Join room request = " + data.roomId());
             senderClient.joinRoom(data.roomId());
-            socketService.onJoin(data.roomId(), senderClient.get("userId"), ackSender);
+            String jwt = validateAndGetJwt(senderClient.getHandshakeData().getAuthToken());
+            socketService.onJoin(data.roomId(), jwtUtils.getUserIdFromJwt(jwt), ackSender);
         };
     }
 
